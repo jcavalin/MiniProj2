@@ -1,0 +1,34 @@
+# Correr o Animalec com Docker
+
+```bash
+chmod -R a+rX docker   # os contentores do curl e do MongoDB não correm como root
+docker compose up
+```
+
+Na primeira vez demora alguns minutos (o `npm ci` corre dentro de cada contentor).
+
+| Serviço | Endereço |
+|---|---|
+| Front-end (Vue 2) | http://localhost:8081 |
+| Back-end (API Express) | http://localhost:8080 |
+| MongoDB 4.4 | mongodb://localhost:27017/test |
+
+**Utilizadores de teste** (criados pelo serviço `seed`):
+
+- `admin` / `admin`: tipo `admin`, vê a entrada ADMIN no menu (back-office)
+- `aluno` / `aluno123`: tipo `user`
+
+**Dados iniciais:** os 4 animais de `frontend/db/db.json`, inseridos por `docker/mongo-init/01-animais.js` só quando a base de dados é criada.
+
+**Comandos úteis**
+
+- Parar: `docker compose down`
+- Recomeçar com a base de dados vazia: `docker compose down -v` (apaga também os `node_modules` dos contentores)
+- Ver os registos do back-end: `docker compose logs -f backend`
+
+**Alterações ao código original** (para ler a configuração de variáveis de ambiente, mantendo os valores antigos como alternativa):
+
+- `backend/config/config.js`: `uri` lê `MONGODB_URI`
+- `frontend/src/api/config.js`: `API_URL` lê `VUE_APP_API_URL`
+
+Usa Node 16 porque o vue-cli 4 (webpack 4) e algumas dependências não aceitam Node 17 ou mais recente.
