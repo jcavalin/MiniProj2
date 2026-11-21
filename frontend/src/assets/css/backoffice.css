@@ -1,0 +1,65 @@
+/* Estilos partilhados pelas listagens novas do back-office (patrocinadores e especialistas). */
+
+/* Menu de gestão (Admin.vue): a coluna de 4/12 deixa pouco espaço para «PATROCINADORES» */
+.card-deck .card-header {
+  font-size: 0.85rem;
+  padding: 0.75rem 0.5rem;
+}
+
+.campo-pesquisa {
+  max-width: 340px;
+}
+
+/* Telemóvel: títulos com palavras longas («PATROCINADORES») não cabem a 2,25rem (public/css/animalec.css) */
+@media (max-width: 575.98px) {
+  .page-section .page-section-heading {
+    font-size: 1.75rem;
+    line-height: 2.25rem;
+  }
+}
+
+/* Mobile: a tabela passa a cartões, sem duplicar a marcação (Mockups 2 e 4, versão mobile) */
+@media (max-width: 767.98px) {
+  .tabela-responsiva thead {
+    display: none;
+  }
+  .tabela-responsiva,
+  .tabela-responsiva tbody,
+  .tabela-responsiva tr {
+    display: block;
+    width: 100%;
+  }
+  .tabela-responsiva tr {
+    border: 1px solid #dee2e6;
+    border-radius: 0.3rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: #fff !important;
+  }
+  .tabela-responsiva td {
+    display: block;
+    border: 0;
+    padding: 0.15rem 0 !important;
+  }
+  .tabela-responsiva td.nome {
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+  /* Tipo e número de animais na mesma linha: «Empresa · 3 animais» */
+  .tabela-responsiva td.resumo {
+    display: inline;
+    color: #6c757d;
+  }
+  .tabela-responsiva td.resumo + td.resumo::before {
+    content: " · ";
+  }
+  .tabela-responsiva td.acoes {
+    padding-top: 0.5rem !important;
+  }
+  .tabela-responsiva td.acoes:empty {
+    display: none;
+  }
+  .btn-menu-principal {
+    display: none;
+  }
+}

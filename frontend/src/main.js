@@ -6,6 +6,7 @@ import store from "./store";
 import VueSimpleAlert from "vue-simple-alert";
 import BootstrapVue from 'bootstrap-vue'
 import "bootstrap-vue/dist/bootstrap-vue.css"
+import "@/assets/css/backoffice.css"
 
 Vue.use(BootstrapVue)
 Vue.use(VueSimpleAlert)
