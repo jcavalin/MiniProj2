@@ -90,6 +90,11 @@ const routes = [
     component: () => import("@/views/sponsors/ListSponsors.vue")
   },
   {
+    path: "/admin/sponsors/add",
+    name: "addSponsor",
+    component: () => import("@/views/sponsors/AddSponsor.vue")
+  },
+  {
     path: "/profile",
     name: "profile",
     component: () => import("@/views/Profile.vue"),

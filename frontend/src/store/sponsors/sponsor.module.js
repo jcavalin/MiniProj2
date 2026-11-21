@@ -2,6 +2,7 @@ import sponsorService from "@/api/sponsor.service";
 import {
   // Actions
   FETCH_SPONSORS,
+  ADD_SPONSOR,
   // Mutations
   SET_SPONSORS,
   SET_MESSAGE
@@ -14,24 +15,42 @@ const state = {
 
 const getters = {
   getSponsors: state => state.sponsors,
-  getSponsorsById: state => id => state.sponsors.find(sponsor => sponsor._id === id),
+  getSponsorsById: state => id =>
+    state.sponsors.find(sponsor => sponsor._id === id),
   getMessage: state => state.message
 };
 
 const actions = {
   [FETCH_SPONSORS]: ({ commit, rootState }) => {
     return new Promise((resolve, reject) => {
-      sponsorService.getSponsors(rootState.auth.token)
-        .then(
-          res => {
-            commit(SET_SPONSORS, res.body);
-            resolve(res)
-          },
-          err => {
-            commit(SET_MESSAGE, err.message)
-            reject(err)
-          });
-    })
+      sponsorService.getSponsors(rootState.auth.token).then(
+        res => {
+          commit(SET_SPONSORS, res.body);
+          resolve(res);
+        },
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
+  },
+  [ADD_SPONSOR]: ({ commit, rootState }, payload) => {
+    return new Promise((resolve, reject) => {
+      sponsorService.addSponsor(rootState.auth.token, payload).then(
+        res => {
+          commit(
+            SET_MESSAGE,
+            `O patrocinador ${res.body.name} foi adicionado com sucesso!`
+          );
+          resolve(res);
+        },
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
   }
 };
 
@@ -50,4 +69,4 @@ export default {
   getters,
   actions,
   mutations
-}
+};

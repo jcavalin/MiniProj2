@@ -62,4 +62,10 @@
   .btn-menu-principal {
     display: none;
   }
+  /* Botões do formulário a toda a largura (Mockup 3, versão mobile) */
+  .acoes-form .btn {
+    display: block;
+    width: 100%;
+    margin-right: 0 !important;
+  }
 }
