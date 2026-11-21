@@ -1,0 +1,13 @@
+# Dependências (cada pasta tem também o seu próprio .gitignore)
+node_modules/
+
+# Configuração local de editores e ferramentas
+.idea/
+.vscode/
+.claude/
+*.swp
+.DS_Store
+
+# Variáveis de ambiente locais
+.env
+.env.local

@@ -18,7 +18,10 @@ Na primeira vez demora alguns minutos (o `npm ci` corre dentro de cada contentor
 - `admin` / `admin`: tipo `admin`, vê a entrada ADMIN no menu (back-office)
 - `aluno` / `aluno123`: tipo `user`
 
-**Dados iniciais:** os 4 animais de `frontend/db/db.json`, inseridos por `docker/mongo-init/01-animais.js` só quando a base de dados é criada.
+**Dados iniciais** (inseridos só quando a base de dados é criada):
+
+- `docker/mongo-init/01-animais.js`: os 4 animais de `frontend/db/db.json`;
+- `docker/mongo-init/02-quizzes.js`: 6 questões, 2 quizzes (níveis 1 e 2) e os 5 níveis de utilizador de `frontend/src/store/module.js`. Substituem as coleções `questions`, `quizzes` e `user_levels` da base Atlas do livro.
 
 **Comandos úteis**
 
