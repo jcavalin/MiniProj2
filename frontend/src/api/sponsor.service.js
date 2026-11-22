@@ -48,6 +48,21 @@ export const sponsorService = {
     }
   },
 
+  async removeSponsor(token, id) {
+    const response = await fetch(`${API_URL}/sponsors/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      }
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  },
+
   async addSponsor(token, payload) {
     const response = await fetch(`${API_URL}/sponsors`, {
       method: "POST",

@@ -121,3 +121,16 @@ exports.update = (req, res) => {
         });
     });
 }
+
+exports.delete = (req, res) => {
+    const errors = validationResult(req).array();
+    if (errors.length > 0) return res.status(406).send(errors);
+
+    Sponsor.deleteOne({
+        _id: req.params.id
+    }, (error, result) => {
+        if (error) throw error;
+        if (result.deletedCount <= 0) return res.status(SponsorMessages.error.e0.http).send(SponsorMessages.error.e0);
+        return res.status(SponsorMessages.success.s3.http).send(SponsorMessages.success.s3);
+    });
+}

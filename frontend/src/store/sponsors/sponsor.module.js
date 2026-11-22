@@ -5,6 +5,7 @@ import {
   FETCH_SPONSOR,
   ADD_SPONSOR,
   EDIT_SPONSOR,
+  REMOVE_SPONSOR,
   // Mutations
   SET_SPONSORS,
   SET_MESSAGE
@@ -57,6 +58,20 @@ const actions = {
             SET_MESSAGE,
             `O patrocinador ${res.body.name} foi atualizado com sucesso!`
           );
+          resolve(res);
+        },
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
+  },
+  [REMOVE_SPONSOR]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      sponsorService.removeSponsor(rootState.auth.token, id).then(
+        res => {
+          commit(SET_MESSAGE, `O patrocinador foi removido com sucesso!`);
           resolve(res);
         },
         err => {

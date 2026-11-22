@@ -27,6 +27,14 @@
   max-width: 340px;
 }
 
+/* Browser largo: os três botões de ação na mesma linha (Mockups 2 e 4); quem encolhe é a coluna
+   do nome. Abaixo de 1200 px a coluna é estreita demais e os botões podem mudar de linha. */
+@media (min-width: 1200px) {
+  .tabela-responsiva td.acoes {
+    white-space: nowrap;
+  }
+}
+
 /* Telemóvel: títulos com palavras longas («PATROCINADORES») não cabem a 2,25rem (public/css/animalec.css) */
 @media (max-width: 575.98px) {
   .page-section .page-section-heading {
@@ -50,7 +58,7 @@
     border: 1px solid #dee2e6;
     border-radius: 0.3rem;
     margin-bottom: 1rem;
-    padding: 0.75rem 1.25rem;
+    padding: 0.75rem 1rem;
     background: #fff !important;
   }
   .tabela-responsiva td {
@@ -78,9 +86,9 @@
   }
   /* Botões de ação mais pequenos dentro dos cartões (Mockup 2, versão mobile) */
   .tabela-responsiva td.acoes .btn {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
-    margin-right: 0.25rem !important;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.8rem;
+    margin-right: 0.15rem !important;
   }
   .btn-menu-principal {
     display: none;

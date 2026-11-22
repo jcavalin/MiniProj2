@@ -25,6 +25,7 @@ router.route('/')
 
 router.route('/:id')
     .get(AuthController.checkAuth, [param("id").isMongoId()], SponsorController.getOne)
-    .put(AuthController.checkAuth, [param("id").isMongoId(), ...sponsorValidation], SponsorController.update);
+    .put(AuthController.checkAuth, [param("id").isMongoId(), ...sponsorValidation], SponsorController.update)
+    .delete(AuthController.checkAuth, [param("id").isMongoId()], SponsorController.delete);
 
 module.exports = router;

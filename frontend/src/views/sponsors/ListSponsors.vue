@@ -85,7 +85,13 @@
                   >
                     <i class="fas fa-search"></i> VER
                   </button>
-                  <!-- O botão REMOVER chega na fatia seguinte (P5) -->
+                  <button
+                    @click="removeSponsor(sponsor._id)"
+                    type="button"
+                    class="btn btn-outline-danger mr-2 mt-2"
+                  >
+                    <i class="fas fa-trash-alt"></i> REMOVER
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -100,7 +106,10 @@
 </template>
 
 <script>
-import { FETCH_SPONSORS } from "@/store/sponsors/sponsor.constants";
+import {
+  FETCH_SPONSORS,
+  REMOVE_SPONSOR
+} from "@/store/sponsors/sponsor.constants";
 import HeaderPage from "@/components/HeaderPage.vue";
 import { mapGetters } from "vuex";
 
@@ -204,6 +213,32 @@ export default {
       )}</a></p>
           <p>Animais patrocinados: ${animals || "nenhum"}</p>
         `;
+    },
+
+    // Confirmação antes de remover (Mockup 8), como removeAnimal em ListAnimals.vue
+    removeSponsor(id) {
+      this.$confirm(
+        "Se sim, clique em OK",
+        "Deseja mesmo remover o patrocinador?",
+        "warning",
+        { confirmButtonText: "OK", cancelButtonText: "Cancelar" }
+      ).then(
+        () => {
+          this.$store.dispatch(`sponsor/${REMOVE_SPONSOR}`, id).then(
+            () => {
+              this.$alert(this.getMessage, "Patrocinador removido!", "success");
+              this.fetchSponsors();
+            },
+            err => {
+              this.$alert(`${err.message}`, "Erro", "error");
+              this.fetchSponsors();
+            }
+          );
+        },
+        () => {
+          this.$alert("Remoção cancelada!", "Informação", "info");
+        }
+      );
     }
   },
   created() {
