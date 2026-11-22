@@ -16,8 +16,7 @@
           </b-card-group>
           <b-card-group deck class="mt-3">
             <AdminOptionBox routeName="listSponsors" iconName="hand-holding-heart"  title="Patrocinadores"/>
-            <!-- Lugar do cartão Especialistas (fatia E1), para o cartão acima manter a largura dos outros -->
-            <b-card class="invisible d-none d-sm-flex"></b-card>
+            <AdminOptionBox routeName="listExperts" iconName="user-graduate"  title="Especialistas"/>
           </b-card-group>
         </b-col>
       </b-row>

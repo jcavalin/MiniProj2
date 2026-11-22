@@ -112,21 +112,7 @@ import {
 } from "@/store/sponsors/sponsor.constants";
 import HeaderPage from "@/components/HeaderPage.vue";
 import { mapGetters } from "vuex";
-
-// Texto em minúsculas e sem acentos, para a pesquisa ignorar maiúsculas e acentuação
-function normalizar(texto) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
-
-// Escapa o texto escrito pelos utilizadores antes de o p\u00f4r no HTML da janela
-function escapar(texto) {
-  const div = document.createElement("div");
-  div.textContent = texto;
-  return div.innerHTML;
-}
+import { normalizar, escapar } from "@/utils/texto";
 
 export default {
   name: "ManageSponsors",

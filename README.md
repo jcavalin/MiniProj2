@@ -30,7 +30,7 @@ Na primeira vez demora alguns minutos, porque o `npm ci` corre dentro de cada co
 
 **Credenciais:** `admin` / `admin` (administrador, com acesso ao *back-office*) e `aluno` / `aluno123` (utilizador normal).
 
-**Dados iniciais:** 4 animais, 6 questões, 2 quizzes, 5 níveis de utilizador e 3 patrocinadores (`docker/mongo-init/`). Só são inseridos quando a base de dados é criada; para os repor, usar `docker compose down -v` e voltar a arrancar.
+**Dados iniciais:** 4 animais, 6 questões, 2 quizzes, 5 níveis de utilizador, 3 patrocinadores e 4 especialistas (`docker/mongo-init/`). Só são inseridos quando a base de dados é criada; para os repor, usar `docker compose down -v` e voltar a arrancar.
 
 Mais pormenores (comandos úteis e alterações ao código original): [docker/README.md](docker/README.md).
 

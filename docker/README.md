@@ -22,7 +22,8 @@ Na primeira vez demora alguns minutos (o `npm ci` corre dentro de cada contentor
 
 - `docker/mongo-init/01-animais.js`: os 4 animais de `frontend/db/db.json`;
 - `docker/mongo-init/02-quizzes.js`: 6 questões, 2 quizzes (níveis 1 e 2) e os 5 níveis de utilizador de `frontend/src/store/module.js`. Substituem as coleções `questions`, `quizzes` e `user_levels` da base Atlas do livro;
-- `docker/mongo-init/03-patrocinadores.js`: 3 patrocinadores, ligados aos animais pelo nome.
+- `docker/mongo-init/03-patrocinadores.js`: 3 patrocinadores, ligados aos animais pelo nome;
+- `docker/mongo-init/04-especialistas.js`: 4 especialistas de instituições de Lisboa, com a área igual a um grupo dos animais.
 
 **Comandos úteis**
 

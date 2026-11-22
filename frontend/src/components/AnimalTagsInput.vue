@@ -54,13 +54,7 @@
 </template>
 
 <script>
-// Texto em minúsculas e sem acentos, para a pesquisa ignorar maiúsculas e acentuação
-function normalizar(texto) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-}
+import { normalizar } from "@/utils/texto";
 
 let contador = 0;
 

@@ -78,6 +78,10 @@
   .tabela-responsiva td.resumo + td.resumo::before {
     content: " · ";
   }
+  /* Instituição e área em linhas próprias (Mockup 4, versão mobile) */
+  .tabela-responsiva td.detalhe {
+    color: #6c757d;
+  }
   .tabela-responsiva td.acoes {
     padding-top: 0.5rem !important;
   }
