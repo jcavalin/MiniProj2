@@ -11,7 +11,7 @@ db.sponsors.insertMany([
     name: "Jardim Zoológico de Lisboa",
     type: "Empresa",
     // Imagem servida pela própria API (backend/assets), para não depender de sites externos
-    logo: "http://localhost:8080/assets/images/logo.png",
+    logo: "http://localhost:8080/assets/images/logo_email.png",
     email: "patrocinios@zoo-exemplo.pt",
     animals: [animal("cão"), animal("gato"), animal("cavalo")],
     active: true

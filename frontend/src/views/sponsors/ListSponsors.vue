@@ -78,7 +78,14 @@
                   >
                     <i class="fas fa-edit"></i> EDITAR
                   </router-link>
-                  <!-- Os botões VER e REMOVER chegam nas fatias seguintes (P4 e P5) -->
+                  <button
+                    @click="viewSponsor(sponsor._id)"
+                    type="button"
+                    class="btn btn-outline-success mr-2 mt-2"
+                  >
+                    <i class="fas fa-search"></i> VER
+                  </button>
+                  <!-- O botão REMOVER chega na fatia seguinte (P5) -->
                 </td>
               </tr>
             </tbody>
@@ -103,6 +110,13 @@ function normalizar(texto) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
+}
+
+// Escapa o texto escrito pelos utilizadores antes de o p\u00f4r no HTML da janela
+function escapar(texto) {
+  const div = document.createElement("div");
+  div.textContent = texto;
+  return div.innerHTML;
 }
 
 export default {
@@ -143,6 +157,53 @@ export default {
     },
     compareNames(s1, s2) {
       return s1.name.localeCompare(s2.name, "pt") * this.sortType;
+    },
+
+    // Janela de detalhe (Mockup 6), no estilo de viewAnimal em ListAnimals.vue
+    viewSponsor(id) {
+      const sponsor = this.sponsors.find(sponsor => sponsor._id === id);
+      const options = {
+        // titleText (e não title): o nome é mostrado como texto, nunca interpretado como HTML
+        titleText: sponsor.name,
+        html: this.generateTemplate(sponsor)
+      };
+      if (sponsor.logo) {
+        options.imageUrl = sponsor.logo;
+        options.imageHeight = 110;
+        options.imageAlt = `Logótipo de ${sponsor.name}`;
+      } else {
+        // A caixa que substitui o logótipo vai para o lugar da imagem, acima do título
+        options.onBeforeOpen = popup => {
+          const placeholder = popup.querySelector(".logo-placeholder");
+          const title = popup.querySelector(".swal2-title");
+          if (placeholder && title)
+            title.parentNode.insertBefore(placeholder, title);
+        };
+      }
+      this.$fire(options);
+    },
+
+    generateTemplate(sponsor) {
+      // Sem logótipo, mostra uma caixa com o nome no lugar da imagem
+      const placeholder = sponsor.logo
+        ? ""
+        : `<div class="logo-placeholder" aria-hidden="true">${escapar(
+            sponsor.name
+          )}</div>`;
+      const animals = sponsor.animals
+        .map(animal =>
+          animal.active
+            ? escapar(animal.name)
+            : `${escapar(animal.name)} (inativo)`
+        )
+        .join(", ");
+      return `${placeholder}
+          <h4>Tipo: ${escapar(sponsor.type)}</h4>
+          <p>Email: <a href="mailto:${escapar(sponsor.email)}">${escapar(
+        sponsor.email
+      )}</a></p>
+          <p>Animais patrocinados: ${animals || "nenhum"}</p>
+        `;
     }
   },
   created() {

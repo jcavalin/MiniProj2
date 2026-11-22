@@ -6,6 +6,23 @@
   padding: 0.75rem 0.5rem;
 }
 
+/* Janela de detalhe de um patrocinador sem logótipo (Mockup 6) */
+.logo-placeholder {
+  width: 200px;
+  max-width: 100%;
+  height: 110px;
+  margin: 0 auto 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: 1px dashed #ced4da;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .campo-pesquisa {
   max-width: 340px;
 }
