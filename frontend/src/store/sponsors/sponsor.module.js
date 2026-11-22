@@ -2,7 +2,9 @@ import sponsorService from "@/api/sponsor.service";
 import {
   // Actions
   FETCH_SPONSORS,
+  FETCH_SPONSOR,
   ADD_SPONSOR,
+  EDIT_SPONSOR,
   // Mutations
   SET_SPONSORS,
   SET_MESSAGE
@@ -26,6 +28,35 @@ const actions = {
       sponsorService.getSponsors(rootState.auth.token).then(
         res => {
           commit(SET_SPONSORS, res.body);
+          resolve(res);
+        },
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
+  },
+  // Lê um patrocinador da API (GET /sponsors/:id), para editar com os dados atuais
+  [FETCH_SPONSOR]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      sponsorService.getSponsor(rootState.auth.token, id).then(
+        res => resolve(res.body),
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
+  },
+  [EDIT_SPONSOR]: ({ commit, rootState }, payload) => {
+    return new Promise((resolve, reject) => {
+      sponsorService.editSponsor(rootState.auth.token, payload).then(
+        res => {
+          commit(
+            SET_MESSAGE,
+            `O patrocinador ${res.body.name} foi atualizado com sucesso!`
+          );
           resolve(res);
         },
         err => {

@@ -68,7 +68,17 @@
                   >
                 </td>
                 <td class="acoes">
-                  <!-- Os botões EDITAR, VER e REMOVER chegam nas fatias seguintes (P3, P4 e P5) -->
+                  <router-link
+                    :to="{
+                      name: 'editSponsor',
+                      params: { sponsorId: sponsor._id }
+                    }"
+                    tag="button"
+                    class="btn btn-outline-success mr-2 mt-2"
+                  >
+                    <i class="fas fa-edit"></i> EDITAR
+                  </router-link>
+                  <!-- Os botões VER e REMOVER chegam nas fatias seguintes (P4 e P5) -->
                 </td>
               </tr>
             </tbody>

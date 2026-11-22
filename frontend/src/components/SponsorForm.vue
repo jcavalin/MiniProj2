@@ -105,10 +105,14 @@ export default {
   },
   computed: {
     ...mapGetters("animal", ["getAnimals"]),
-    // Só se podem patrocinar animais ativos
+    // Só se podem escolher animais ativos; ao editar, os que o patrocinador já tinha
+    // continuam visíveis (e removíveis) mesmo que entretanto tenham sido desativados
     activeAnimals() {
+      const initial = (this.sponsor.animals || []).map(
+        animal => animal._id || animal
+      );
       return this.getAnimals
-        .filter(animal => animal.active)
+        .filter(animal => animal.active || initial.includes(animal._id))
         .sort((a1, a2) => a1.name.localeCompare(a2.name, "pt"));
     }
   },

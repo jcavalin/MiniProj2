@@ -59,6 +59,12 @@
   .tabela-responsiva td.acoes:empty {
     display: none;
   }
+  /* Botões de ação mais pequenos dentro dos cartões (Mockup 2, versão mobile) */
+  .tabela-responsiva td.acoes .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    margin-right: 0.25rem !important;
+  }
   .btn-menu-principal {
     display: none;
   }
