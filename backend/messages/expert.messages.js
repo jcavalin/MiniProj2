@@ -31,6 +31,11 @@ module.exports = {
             http: 404,
             code: "ExpertNotFound",
             type: "error"
+        },
+        e1: {
+            http: 406,
+            code: "InvalidArea",
+            type: "error"
         }
     }
 }

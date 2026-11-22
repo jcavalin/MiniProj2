@@ -6,6 +6,13 @@
       <b-row class="mb-4">
         <b-col cols="12" md="8" offset-md="2">
           <router-link
+            :to="{ name: 'addExpert' }"
+            tag="button"
+            class="btn btn-outline-success mr-2 mt-2"
+          >
+            <i class="fas fa-plus-square"></i> ADICIONAR ESPECIALISTA
+          </router-link>
+          <router-link
             :to="{ name: 'admin' }"
             tag="button"
             class="btn btn-outline-info mr-2 mt-2 btn-menu-principal"
