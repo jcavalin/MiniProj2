@@ -15,9 +15,10 @@ function checkArea(area, currentArea, callback) {
 }
 
 // Lista os especialistas.
+// Não usa req.query como filtro, para não aceitar operadores do MongoDB vindos do URL (ex.: ?name[$ne]=).
 exports.get = (req, res) => {
 
-    Expert.find(req.query, (error, experts) => {
+    Expert.find({}, (error, experts) => {
         if (error) throw error;
 
         let message = ExpertMessages.success.s2;

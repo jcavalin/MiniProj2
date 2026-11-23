@@ -21,9 +21,10 @@ function checkAnimals(animals, alreadySponsored, callback) {
 }
 
 // Lista os patrocinadores, com o nome e o estado dos animais patrocinados.
+// Não usa req.query como filtro, para não aceitar operadores do MongoDB vindos do URL (ex.: ?name[$ne]=).
 exports.get = (req, res) => {
 
-    Sponsor.find(req.query).populate("animals", "name active").exec((error, sponsors) => {
+    Sponsor.find({}).populate("animals", "name active").exec((error, sponsors) => {
         if (error) throw error;
 
         let message = SponsorMessages.success.s2;
