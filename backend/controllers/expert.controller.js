@@ -105,3 +105,16 @@ exports.update = (req, res) => {
         });
     });
 }
+
+exports.delete = (req, res) => {
+    const errors = validationResult(req).array();
+    if (errors.length > 0) return res.status(406).send(errors);
+
+    Expert.deleteOne({
+        _id: req.params.id
+    }, (error, result) => {
+        if (error) throw error;
+        if (result.deletedCount <= 0) return res.status(ExpertMessages.error.e0.http).send(ExpertMessages.error.e0);
+        return res.status(ExpertMessages.success.s3.http).send(ExpertMessages.success.s3);
+    });
+}

@@ -20,6 +20,7 @@ router.route('/')
 
 router.route('/:id')
     .get(AuthController.checkAuth, [param("id").isMongoId()], ExpertController.getOne)
-    .put(AuthController.checkAuth, [param("id").isMongoId(), ...expertValidation], ExpertController.update);
+    .put(AuthController.checkAuth, [param("id").isMongoId(), ...expertValidation], ExpertController.update)
+    .delete(AuthController.checkAuth, [param("id").isMongoId()], ExpertController.delete);
 
 module.exports = router;

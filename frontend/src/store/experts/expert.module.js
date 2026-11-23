@@ -5,6 +5,7 @@ import {
   FETCH_EXPERT,
   ADD_EXPERT,
   EDIT_EXPERT,
+  REMOVE_EXPERT,
   // Mutations
   SET_EXPERTS,
   SET_MESSAGE
@@ -56,6 +57,20 @@ const actions = {
             SET_MESSAGE,
             `O especialista ${res.body.name} foi atualizado com sucesso!`
           );
+          resolve(res);
+        },
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
+  },
+  [REMOVE_EXPERT]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      expertService.removeExpert(rootState.auth.token, id).then(
+        res => {
+          commit(SET_MESSAGE, `O especialista foi removido com sucesso!`);
           resolve(res);
         },
         err => {

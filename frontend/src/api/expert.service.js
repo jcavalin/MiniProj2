@@ -48,6 +48,21 @@ export const expertService = {
     }
   },
 
+  async removeExpert(token, id) {
+    const response = await fetch(`${API_URL}/experts/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token
+      }
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  },
+
   async addExpert(token, payload) {
     const response = await fetch(`${API_URL}/experts`, {
       method: "POST",

@@ -81,7 +81,13 @@
                   >
                     <i class="fas fa-search"></i> VER
                   </button>
-                  <!-- O botão REMOVER chega na fatia seguinte (E5) -->
+                  <button
+                    @click="removeExpert(expert._id)"
+                    type="button"
+                    class="btn btn-outline-danger mr-2 mt-2"
+                  >
+                    <i class="fas fa-trash-alt"></i> REMOVER
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -96,7 +102,7 @@
 </template>
 
 <script>
-import { FETCH_EXPERTS } from "@/store/experts/expert.constants";
+import { FETCH_EXPERTS, REMOVE_EXPERT } from "@/store/experts/expert.constants";
 import HeaderPage from "@/components/HeaderPage.vue";
 import { mapGetters } from "vuex";
 import { normalizar, escapar, capitalizar } from "@/utils/texto";
@@ -155,6 +161,30 @@ export default {
           <p>Email: <a href="mailto:${escapar(expert.email)}">${escapar(
         expert.email
       )}</a></p>`;
+    },
+    removeExpert(id) {
+      this.$confirm(
+        "Se sim, clique em OK",
+        "Deseja mesmo remover o especialista?",
+        "warning",
+        { confirmButtonText: "OK", cancelButtonText: "Cancelar" }
+      ).then(
+        () => {
+          this.$store.dispatch(`expert/${REMOVE_EXPERT}`, id).then(
+            () => {
+              this.$alert(this.getMessage, "Especialista removido!", "success");
+              this.fetchExperts();
+            },
+            err => {
+              this.$alert(`${err.message}`, "Erro", "error");
+              this.fetchExperts();
+            }
+          );
+        },
+        () => {
+          this.$alert("Remoção cancelada!", "Informação", "info");
+        }
+      );
     }
   },
   created() {
