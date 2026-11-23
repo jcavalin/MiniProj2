@@ -72,3 +72,10 @@ exports.checkAuth = (req, res, callback) => {
     });
 
 };
+
+// Só deixa passar utilizadores do tipo "admin". Usar depois do checkAuth, que preenche req.user.
+exports.checkAdmin = (req, res, callback) => {
+    if (!req.user || req.user.type !== "admin")
+        return res.status(AuthMessages.error.e2.http).send(AuthMessages.error.e2);
+    return callback();
+};

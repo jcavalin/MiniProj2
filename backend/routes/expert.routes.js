@@ -14,13 +14,14 @@ const expertValidation = [body('name').isString().trim().not().isEmpty(),
     body('email').isEmail()
 ];
 
+// Todas as rotas exigem sessão iniciada (checkAuth) e um utilizador administrador (checkAdmin)
 router.route('/')
-    .get(AuthController.checkAuth, ExpertController.get)
-    .post(AuthController.checkAuth, expertValidation, ExpertController.create);
+    .get(AuthController.checkAuth, AuthController.checkAdmin, ExpertController.get)
+    .post(AuthController.checkAuth, AuthController.checkAdmin, expertValidation, ExpertController.create);
 
 router.route('/:id')
-    .get(AuthController.checkAuth, [param("id").isMongoId()], ExpertController.getOne)
-    .put(AuthController.checkAuth, [param("id").isMongoId(), ...expertValidation], ExpertController.update)
-    .delete(AuthController.checkAuth, [param("id").isMongoId()], ExpertController.delete);
+    .get(AuthController.checkAuth, AuthController.checkAdmin, [param("id").isMongoId()], ExpertController.getOne)
+    .put(AuthController.checkAuth, AuthController.checkAdmin, [param("id").isMongoId(), ...expertValidation], ExpertController.update)
+    .delete(AuthController.checkAuth, AuthController.checkAdmin, [param("id").isMongoId()], ExpertController.delete);
 
 module.exports = router;

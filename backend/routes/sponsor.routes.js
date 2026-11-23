@@ -19,13 +19,14 @@ const sponsorValidation = [body('name').isString().trim().not().isEmpty(),
     body('animals.*').isMongoId()
 ];
 
+// Todas as rotas exigem sessão iniciada (checkAuth) e um utilizador administrador (checkAdmin)
 router.route('/')
-    .get(AuthController.checkAuth, SponsorController.get)
-    .post(AuthController.checkAuth, sponsorValidation, SponsorController.create);
+    .get(AuthController.checkAuth, AuthController.checkAdmin, SponsorController.get)
+    .post(AuthController.checkAuth, AuthController.checkAdmin, sponsorValidation, SponsorController.create);
 
 router.route('/:id')
-    .get(AuthController.checkAuth, [param("id").isMongoId()], SponsorController.getOne)
-    .put(AuthController.checkAuth, [param("id").isMongoId(), ...sponsorValidation], SponsorController.update)
-    .delete(AuthController.checkAuth, [param("id").isMongoId()], SponsorController.delete);
+    .get(AuthController.checkAuth, AuthController.checkAdmin, [param("id").isMongoId()], SponsorController.getOne)
+    .put(AuthController.checkAuth, AuthController.checkAdmin, [param("id").isMongoId(), ...sponsorValidation], SponsorController.update)
+    .delete(AuthController.checkAuth, AuthController.checkAdmin, [param("id").isMongoId()], SponsorController.delete);
 
 module.exports = router;

@@ -86,6 +86,9 @@ function handleResponses(code) {
     case 401:
       message = "Não está autorizado a executar esta ação!";
       break;
+    case 403:
+      message = "Só os administradores podem executar esta ação!";
+      break;
     case 404:
       message = "O especialista não existe (pode ter sido removido).";
       break;
