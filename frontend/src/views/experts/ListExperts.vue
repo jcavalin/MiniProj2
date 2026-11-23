@@ -92,7 +92,7 @@
               </tr>
             </tbody>
           </table>
-          <p v-if="filteredExperts.length === 0" class="text-muted">
+          <p v-if="loaded && filteredExperts.length === 0" class="text-muted">
             Nenhum especialista encontrado.
           </p>
         </b-col>
@@ -115,6 +115,7 @@ export default {
   data: function() {
     return {
       experts: [],
+      loaded: false,
       filterName: "",
       sortType: 1
     };
@@ -134,8 +135,10 @@ export default {
       this.$store.dispatch(`expert/${FETCH_EXPERTS}`).then(
         () => {
           this.experts = [...this.getExperts].sort(this.compareNames);
+          this.loaded = true;
         },
         err => {
+          this.loaded = true;
           this.$alert(`${err.message}`, "Erro", "error");
         }
       );

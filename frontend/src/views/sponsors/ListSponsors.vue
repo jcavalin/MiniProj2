@@ -96,7 +96,7 @@
               </tr>
             </tbody>
           </table>
-          <p v-if="filteredSponsors.length === 0" class="text-muted">
+          <p v-if="loaded && filteredSponsors.length === 0" class="text-muted">
             Nenhum patrocinador encontrado.
           </p>
         </b-col>
@@ -122,6 +122,7 @@ export default {
   data: function() {
     return {
       sponsors: [],
+      loaded: false,
       filterName: "",
       sortType: 1
     };
@@ -140,8 +141,10 @@ export default {
       this.$store.dispatch(`sponsor/${FETCH_SPONSORS}`).then(
         () => {
           this.sponsors = [...this.getSponsors].sort(this.compareNames);
+          this.loaded = true;
         },
         err => {
+          this.loaded = true;
           this.$alert(`${err.message}`, "Erro", "error");
         }
       );
