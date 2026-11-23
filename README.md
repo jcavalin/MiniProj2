@@ -34,6 +34,113 @@ Na primeira vez demora alguns minutos, porque o `npm ci` corre dentro de cada co
 
 Mais pormenores (comandos úteis e alterações ao código original): [docker/README.md](docker/README.md).
 
+## API: patrocinadores e especialistas
+
+As duas entidades novas têm *endpoints* próprios no *back-end*, com a mesma organização dos animais do projeto original: rota (`backend/routes/`), controlador (`backend/controllers/`), modelo Mongoose (`backend/models/`) e mensagens de resposta (`backend/messages/`).
+
+### Autenticação
+
+Todos os *endpoints* novos exigem sessão iniciada. O *token* JWT obtém-se com `POST /auth` e vem no cabeçalho `Authorization` da resposta; os pedidos seguintes enviam-no no cabeçalho com o mesmo nome. Sem *token*, ou com um *token* expirado ou de assinatura inválida, a resposta é `401` (`InvalidToken`).
+
+```bash
+TOKEN=$(curl -s -D - -o /dev/null -X POST http://localhost:8080/auth \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"admin"}' \
+  | tr -d '\r' | sed -n 's/^Authorization: //p')
+
+curl -H "Authorization: $TOKEN" http://localhost:8080/sponsors
+```
+
+### Formato das respostas
+
+As respostas seguem o formato do projeto original: `{ "http": 200, "code": "SponsorFound", "type": "success", "body": ... }`. Quando os dados não passam na validação (`express-validator`), a resposta é `406` com a lista dos campos inválidos, por exemplo `[{ "param": "email", "msg": "Invalid value", ... }]`.
+
+### Patrocinadores (`/sponsors`)
+
+| Método | Rota | O que faz | Respostas |
+|---|---|---|---|
+| `GET` | `/sponsors` | Lista os patrocinadores, com o nome e o estado de cada animal | `200` `SponsorFound` |
+| `POST` | `/sponsors` | Cria um patrocinador (cabeçalho `location` com a rota do novo registo) | `201` `SponsorCreated`, `406` |
+| `GET` | `/sponsors/:id` | Devolve um patrocinador | `200` `SponsorFound`, `404` `SponsorNotFound`, `406` |
+| `PUT` | `/sponsors/:id` | Altera um patrocinador | `200` `SponsorUpdated`, `404` `SponsorNotFound`, `406` |
+| `DELETE` | `/sponsors/:id` | Remove um patrocinador | `200` `SponsorDeleted`, `404` `SponsorNotFound`, `406` |
+
+Corpo JSON de `POST` e `PUT`:
+
+```json
+{
+  "name": "Jardim Zoológico de Lisboa",
+  "type": "Empresa",
+  "logo": "http://localhost:8080/assets/images/logo_email.png",
+  "email": "patrocinios@zoo-exemplo.pt",
+  "animals": ["<id de um animal>", "<id de outro animal>"]
+}
+```
+
+Regras de validação:
+
+- `name` obrigatório; `type` tem de ser `Empresa` ou `Particular`; `email` tem de ser um email válido;
+- `logo` é opcional, mas, se vier preenchido, tem de ser um URL;
+- `animals` tem pelo menos um identificador; os animais novos têm de existir e estar ativos, senão a resposta é `406` `InvalidAnimals`. Ao editar, os animais que o patrocinador já tinha mantêm-se aceites mesmo que tenham sido desativados entretanto;
+- `PUT` só altera os campos acima; o estado `active` não muda;
+- um `:id` que não seja um identificador MongoDB válido dá `406`.
+
+### Especialistas (`/experts`)
+
+| Método | Rota | O que faz | Respostas |
+|---|---|---|---|
+| `GET` | `/experts` | Lista os especialistas (aceita filtros na *query string*, por exemplo `?area=ave`) | `200` `ExpertFound` |
+| `POST` | `/experts` | Cria um especialista (cabeçalho `location` com a rota do novo registo) | `201` `ExpertCreated`, `406` |
+| `GET` | `/experts/:id` | Devolve um especialista | `200` `ExpertFound`, `404` `ExpertNotFound`, `406` |
+| `PUT` | `/experts/:id` | Altera um especialista | `200` `ExpertUpdated`, `404` `ExpertNotFound`, `406` |
+| `DELETE` | `/experts/:id` | Remove um especialista | `200` `ExpertDeleted`, `404` `ExpertNotFound`, `406` |
+
+Corpo JSON de `POST` e `PUT`:
+
+```json
+{
+  "name": "Ana Ribeiro",
+  "institution": "Faculdade de Medicina Veterinária da Universidade de Lisboa",
+  "area": "mamífero",
+  "email": "ana.ribeiro@exemplo.pt"
+}
+```
+
+Regras de validação:
+
+- `name`, `institution` e `area` obrigatórios; `email` tem de ser um email válido;
+- `area` tem de ser um dos grupos usados pelos animais (campo `group`, por exemplo `mamífero` ou `ave`), senão a resposta é `406` `InvalidArea`. Ao editar, a área que o especialista já tinha mantém-se aceite;
+- `PUT` só altera os campos acima; o estado `active` não muda;
+- um `:id` que não seja um identificador MongoDB válido dá `406`.
+
+### Comunicação no *front-end* (Fetch API)
+
+O *front-end* fala com a API em três camadas, como nos animais:
+
+1. **Serviços** (`frontend/src/api/sponsor.service.js` e `expert.service.js`): uma função `async` por *endpoint*, que usa `fetch` com o URL de `api/config.js`, o cabeçalho `Content-Type: application/json` e o *token* no cabeçalho `Authorization`. Se `response.ok` for verdadeiro, devolvem o JSON; senão, lançam um erro com uma mensagem em português conforme o código HTTP (`401`, `404` ou `406`), dada pela função `handleResponses`.
+2. **Store Vuex** (`frontend/src/store/sponsors/` e `frontend/src/store/experts/`): cada ação chama o serviço com o *token* guardado em `auth`, atualiza o estado ou a mensagem e devolve uma *Promise*.
+3. **Vistas** (`frontend/src/views/sponsors/` e `frontend/src/views/experts/`): chamam as ações com `this.$store.dispatch` e mostram o resultado ou o erro em janelas (`vue-simple-alert`).
+
+Exemplo, do serviço de especialistas:
+
+```js
+async addExpert(token, payload) {
+  const response = await fetch(`${API_URL}/experts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token
+    },
+    body: JSON.stringify(payload)
+  });
+  if (response.ok) {
+    return await response.json();
+  } else {
+    throw Error(handleResponses(response.status));
+  }
+}
+```
+
 ## Nota sobre credenciais no código original
 
 O ficheiro `backend/config/config.js` vem do repositório do livro e contém a palavra-passe da base de dados Atlas e de uma conta de correio usadas pelos autores. Já eram públicas no código original e não são usadas neste ambiente (a ligação ao MongoDB vem da variável `MONGODB_URI`).
