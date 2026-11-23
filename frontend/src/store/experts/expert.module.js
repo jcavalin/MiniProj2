@@ -2,7 +2,9 @@ import expertService from "@/api/expert.service";
 import {
   // Actions
   FETCH_EXPERTS,
+  FETCH_EXPERT,
   ADD_EXPERT,
+  EDIT_EXPERT,
   // Mutations
   SET_EXPERTS,
   SET_MESSAGE
@@ -26,6 +28,34 @@ const actions = {
       expertService.getExperts(rootState.auth.token).then(
         res => {
           commit(SET_EXPERTS, res.body);
+          resolve(res);
+        },
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
+  },
+  [FETCH_EXPERT]: ({ commit, rootState }, id) => {
+    return new Promise((resolve, reject) => {
+      expertService.getExpert(rootState.auth.token, id).then(
+        res => resolve(res.body),
+        err => {
+          commit(SET_MESSAGE, err.message);
+          reject(err);
+        }
+      );
+    });
+  },
+  [EDIT_EXPERT]: ({ commit, rootState }, payload) => {
+    return new Promise((resolve, reject) => {
+      expertService.editExpert(rootState.auth.token, payload).then(
+        res => {
+          commit(
+            SET_MESSAGE,
+            `O especialista ${res.body.name} foi atualizado com sucesso!`
+          );
           resolve(res);
         },
         err => {

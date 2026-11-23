@@ -64,7 +64,17 @@
                   >{{ capitalizar(expert.area) }}
                 </td>
                 <td class="acoes">
-                  <!-- Os botões EDITAR, VER e REMOVER chegam nas fatias seguintes (E3, E4 e E5) -->
+                  <router-link
+                    :to="{
+                      name: 'editExpert',
+                      params: { expertId: expert._id }
+                    }"
+                    tag="button"
+                    class="btn btn-outline-success mr-2 mt-2"
+                  >
+                    <i class="fas fa-edit"></i> EDITAR
+                  </router-link>
+                  <!-- Os botões VER e REMOVER chegam nas fatias seguintes (E4 e E5) -->
                 </td>
               </tr>
             </tbody>

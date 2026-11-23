@@ -110,6 +110,11 @@ const routes = [
     component: () => import("@/views/experts/AddExpert.vue")
   },
   {
+    path: "/admin/experts/:expertId",
+    name: "editExpert",
+    component: () => import("@/views/experts/EditExpert.vue")
+  },
+  {
     path: "/profile",
     name: "profile",
     component: () => import("@/views/Profile.vue"),

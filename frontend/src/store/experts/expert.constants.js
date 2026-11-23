@@ -1,6 +1,8 @@
 // Actions
 export const FETCH_EXPERTS = "fetchExperts";
+export const FETCH_EXPERT = "fetchExpert";
 export const ADD_EXPERT = "addExpert";
+export const EDIT_EXPERT = "editExpert";
 
 // Mutations
 export const SET_EXPERTS = "setExperts";
