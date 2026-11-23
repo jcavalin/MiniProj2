@@ -74,7 +74,7 @@ As duas entidades novas têm *endpoints* próprios no *back-end*, com a mesma or
 
 ### Autenticação
 
-Todos os *endpoints* novos exigem sessão iniciada. O *token* JWT obtém-se com `POST /auth` e vem no cabeçalho `Authorization` da resposta; os pedidos seguintes enviam-no no cabeçalho com o mesmo nome. Sem *token*, ou com um *token* expirado ou de assinatura inválida, a resposta é `401` (`InvalidToken`).
+Todos os *endpoints* novos exigem sessão iniciada. O *token* JWT obtém-se com `POST /auth` e vem no cabeçalho `Authorization` da resposta; os pedidos seguintes enviam-no no cabeçalho com o mesmo nome. Sem *token*, ou com um *token* expirado ou de assinatura inválida, a resposta é `401` (`InvalidToken`). Além disso, só os utilizadores do tipo `admin` os podem usar: com outro tipo de utilizador (por exemplo, `aluno`), a resposta é `403` (`AdminOnly`).
 
 ```bash
 TOKEN=$(curl -s -D - -o /dev/null -X POST http://localhost:8080/auth \
@@ -151,7 +151,7 @@ Regras de validação:
 
 O *front-end* fala com a API em três camadas, como nos animais:
 
-1. **Serviços** (`frontend/src/api/sponsor.service.js` e `expert.service.js`): uma função `async` por *endpoint*, que usa `fetch` com o URL de `api/config.js`, o cabeçalho `Content-Type: application/json` e o *token* no cabeçalho `Authorization`. Se `response.ok` for verdadeiro, devolvem o JSON; senão, lançam um erro com uma mensagem em português conforme o código HTTP (`401`, `404` ou `406`), dada pela função `handleResponses`.
+1. **Serviços** (`frontend/src/api/sponsor.service.js` e `expert.service.js`): uma função `async` por *endpoint*, que usa `fetch` com o URL de `api/config.js`, o cabeçalho `Content-Type: application/json` e o *token* no cabeçalho `Authorization`. Se `response.ok` for verdadeiro, devolvem o JSON; senão, lançam um erro com uma mensagem em português conforme o código HTTP (`401`, `403`, `404` ou `406`), dada pela função `handleResponses`.
 2. **Store Vuex** (`frontend/src/store/sponsors/` e `frontend/src/store/experts/`): cada ação chama o serviço com o *token* guardado em `auth`, atualiza o estado ou a mensagem e devolve uma *Promise*.
 3. **Vistas** (`frontend/src/views/sponsors/` e `frontend/src/views/experts/`): chamam as ações com `this.$store.dispatch` e mostram o resultado ou o erro em janelas (`vue-simple-alert`).
 
@@ -174,6 +174,10 @@ async addExpert(token, payload) {
   }
 }
 ```
+
+## Verificação
+
+O projeto original não tem testes automáticos, e este miniprojeto segue a mesma opção. Cada funcionalidade foi verificada à mão no *browser*, em ecrã largo (1280 px) e em *mobile* (375 px).
 
 ## Nota sobre credenciais no código original
 
