@@ -182,3 +182,7 @@ O projeto original não tem testes automáticos, e este miniprojeto segue a mesm
 ## Nota sobre credenciais no código original
 
 O ficheiro `backend/config/config.js` vem do repositório do livro e contém a palavra-passe da base de dados Atlas e de uma conta de correio usadas pelos autores. Já eram públicas no código original e não são usadas neste ambiente (a ligação ao MongoDB vem da variável `MONGODB_URI`).
+
+## Declaração de utilização de IA
+
+O ambiente Docker, as sementes da base de dados e o código das novas funcionalidades (patrocinadores e especialistas, no *back-end* e no *front-end*) foram desenvolvidos com o apoio do Claude e do Claude Code (Anthropic), a partir da especificação, dos *wireframes* e dos *mockups* elaborados na Tarefa 3.1 b). O autor tomou as decisões de âmbito e de estrutura (inclusão do *back-end*, alinhamento com o enunciado, organização do trabalho em funcionalidades independentes) e reviu, testou e registou cada alteração no Git. O código foi ainda revisto por um agente de IA independente, e o autor decidiu quais as correções a aplicar.
