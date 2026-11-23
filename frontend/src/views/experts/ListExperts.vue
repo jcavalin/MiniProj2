@@ -74,7 +74,14 @@
                   >
                     <i class="fas fa-edit"></i> EDITAR
                   </router-link>
-                  <!-- Os botões VER e REMOVER chegam nas fatias seguintes (E4 e E5) -->
+                  <button
+                    @click="viewExpert(expert._id)"
+                    type="button"
+                    class="btn btn-outline-success mr-2 mt-2"
+                  >
+                    <i class="fas fa-search"></i> VER
+                  </button>
+                  <!-- O botão REMOVER chega na fatia seguinte (E5) -->
                 </td>
               </tr>
             </tbody>
@@ -92,7 +99,7 @@
 import { FETCH_EXPERTS } from "@/store/experts/expert.constants";
 import HeaderPage from "@/components/HeaderPage.vue";
 import { mapGetters } from "vuex";
-import { normalizar, capitalizar } from "@/utils/texto";
+import { normalizar, escapar, capitalizar } from "@/utils/texto";
 
 export default {
   name: "ManageExperts",
@@ -133,6 +140,21 @@ export default {
     },
     compareNames(e1, e2) {
       return e1.name.localeCompare(e2.name, "pt") * this.sortType;
+    },
+    viewExpert(id) {
+      const expert = this.experts.find(expert => expert._id === id);
+      this.$fire({
+        // titleText (e não title): o nome é mostrado como texto, nunca interpretado como HTML
+        titleText: expert.name,
+        html: this.generateTemplate(expert)
+      });
+    },
+    generateTemplate(expert) {
+      return `<h4>Área: ${escapar(capitalizar(expert.area))}</h4>
+          <p>Instituição: ${escapar(expert.institution)}</p>
+          <p>Email: <a href="mailto:${escapar(expert.email)}">${escapar(
+        expert.email
+      )}</a></p>`;
     }
   },
   created() {
