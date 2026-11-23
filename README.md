@@ -1,6 +1,40 @@
 # MiniProj2: Animalec com patrocinadores e especialistas
 
-Miniprojeto da Tarefa 3.2 de Programação Web Avançada (MEIW, Universidade Aberta). Parte do Projeto Animalec, do livro recomendado da unidade curricular, e acrescenta duas entidades ao *back-office*: patrocinadores e especialistas.
+Miniprojeto da Tarefa 3.2 de Programação Web Avançada (MEIW, Universidade Aberta). Parte do Projeto Animalec, do livro recomendado da unidade curricular, e acrescenta duas entidades ao *back-office*: patrocinadores e especialistas, planeadas na Tarefa 3.1. Cada entidade tem *endpoints* próprios no *back-end* e as respetivas páginas no *front-end*.
+
+## Funcionalidades
+
+**No *back-office*** (menu ADMIN, só para administradores), o menu "Gestão do Animalec" tem dois cartões novos: PATROCINADORES e ESPECIALISTAS.
+
+**Patrocinadores**
+
+- Listagem com pesquisa por nome (sem distinguir maiúsculas nem acentos) e ordenação por nome, crescente ou decrescente;
+- Adicionar e editar: nome, tipo (empresa ou particular), *link* para o logótipo (opcional), email de contacto e animais patrocinados. Os animais escolhem-se num campo com pesquisa e etiquetas, e só se podem escolher animais ativos;
+- Ver: janela com o logótipo (ou uma caixa com o nome, se não houver logótipo), o tipo, o email e os animais patrocinados;
+- Remover, com pedido de confirmação.
+
+**Especialistas**
+
+- Listagem com pesquisa e ordenação por nome, como nos patrocinadores;
+- Adicionar e editar: nome, instituição, área e email de contacto. A área escolhe-se numa lista feita a partir dos grupos dos animais (por exemplo, mamífero e ave);
+- Ver: janela com o nome, a área, a instituição e o email;
+- Remover, com pedido de confirmação.
+
+**Em ambas as entidades**
+
+- Os dados são validados no *front-end* (campos obrigatórios, email, URL) e de novo na API, que recusa dados inválidos com `406`;
+- Todas as rotas da API exigem sessão iniciada (*token* JWT);
+- Os textos vindos da base de dados são mostrados nas janelas como texto, nunca como HTML;
+- *Design* responsivo: abaixo de 768 px, as tabelas passam a cartões (um por registo), os botões dos formulários ocupam a largura toda e os títulos ficam mais pequenos. Os estilos partilhados estão em `frontend/src/assets/css/backoffice.css`.
+
+## Fases do enunciado
+
+| Fase | Onde está |
+|---|---|
+| 1. Replicar o Animalec e pô-lo totalmente funcional | `docker compose up` (ver [Arranque](#arranque)); os quizzes, as questões e os níveis de utilizador vêm de `docker/mongo-init/02-quizzes.js` |
+| 2. Implementar as entidades planeadas na 3.1 | [Funcionalidades](#funcionalidades) |
+| 3. Explorar a API e a comunicação com o servidor | [API: patrocinadores e especialistas](#api-patrocinadores-e-especialistas) |
+| 4. Todos os ficheiros no Git, no projeto MiniProj2 | Este repositório (código original e código novo) |
 
 ## Estrutura
 
