@@ -1,5 +1,6 @@
 // Dados iniciais do MongoDB (corre só quando o volume da base de dados está vazio).
-// Animais tirados de frontend/db/db.json.
+// Animais tirados de frontend/db/db.json. As fotografias do cão e do gato (as originais já não existem)
+// vêm do Wikimedia Commons: autor e licença na página de cada ficheiro.
 db = db.getSiblingDB("test");
 db.animals.insertMany([
   {
@@ -10,7 +11,7 @@ db.animals.insertMany([
     "links": [
       {
         "types": "photo",
-        "url": "https://www.purina.pt/sites/g/files/mcldtz1671/files/2018-03/cao-em-casa.jpg"
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/YellowLabradorLooking_new.jpg?width=640"
       },
       {
         "types": "video",
@@ -33,7 +34,7 @@ db.animals.insertMany([
     "links": [
       {
         "types": "photo",
-        "url": "https://www.royalcanin.es/wp-content/uploads/2017/10/bigotesnew.jpg"
+        "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Cat_November_2010-1a.jpg?width=640"
       },
       {
         "types": "video",
