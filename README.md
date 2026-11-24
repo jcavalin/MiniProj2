@@ -47,6 +47,8 @@ Miniprojeto da Tarefa 3.2 de Programação Web Avançada (MEIW, Universidade Abe
 
 ## Arranque
 
+### Com Docker (recomendado)
+
 É preciso ter o Docker com o Docker Compose.
 
 ```bash
@@ -67,6 +69,49 @@ Na primeira vez demora alguns minutos, porque o `npm ci` corre dentro de cada co
 **Dados iniciais:** 4 animais, 6 questões, 2 quizzes, 5 níveis de utilizador, 3 patrocinadores e 4 especialistas (`docker/mongo-init/`). Só são inseridos quando a base de dados é criada; para os repor, usar `docker compose down -v` e voltar a arrancar.
 
 Mais pormenores (comandos úteis e alterações ao código original): [docker/README.md](docker/README.md).
+
+### Sem Docker
+
+Segue os passos do enunciado, com as mesmas portas, base de dados e credenciais. É preciso ter:
+
+- **Node.js 16** (o vue-cli 4 e algumas dependências não funcionam com Node 17 ou mais recente; com o [nvm](https://github.com/nvm-sh/nvm): `nvm install 16 && nvm use 16`);
+- **MongoDB 4.4** Community a correr em `localhost:27017` (o Mongoose 5 do projeto não suporta versões recentes), com a *shell* `mongo` que o acompanha.
+
+Os comandos abaixo são para Linux e macOS. No Windows, usar o Git Bash ou definir as variáveis de ambiente com `set` (cmd) ou `$env:` (PowerShell).
+
+**1. Dados iniciais** (a partir da raiz do repositório):
+
+```bash
+for f in docker/mongo-init/*.js; do mongo mongodb://localhost:27017 "$f"; done
+```
+
+**2. API** (num terminal próprio):
+
+```bash
+cd backend
+npm install
+MONGODB_URI=mongodb://localhost:27017/test npm start
+```
+
+Deve aparecer "Your app is listening on 8080".
+
+**3. Utilizadores de teste** (com a API a correr, a partir da raiz do repositório):
+
+```bash
+API_URL=http://localhost:8080 sh docker/seed-utilizadores.sh
+```
+
+**4. *Front-end*** (noutro terminal):
+
+```bash
+cd frontend
+npm install
+VUE_APP_API_URL=http://localhost:8080 npm run serve -- --port 8081
+```
+
+Abrir http://localhost:8081 e entrar com `admin` / `admin`.
+
+> Sem as variáveis `MONGODB_URI` e `VUE_APP_API_URL`, o código usa os valores originais do livro (base de dados Atlas e API no Heroku), que podem já não estar disponíveis.
 
 ## API: patrocinadores e especialistas
 
