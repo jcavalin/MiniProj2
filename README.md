@@ -74,8 +74,8 @@ Mais pormenores (comandos úteis e alterações ao código original): [docker/RE
 
 Segue os passos do enunciado, com as mesmas portas, base de dados e credenciais. É preciso ter:
 
-- **Node.js 16** (o vue-cli 4 e algumas dependências não funcionam com Node 17 ou mais recente; com o [nvm](https://github.com/nvm-sh/nvm): `nvm install 16 && nvm use 16`);
-- **MongoDB 4.4** Community a correr em `localhost:27017` (o Mongoose 5 do projeto não suporta versões recentes), com a *shell* `mongo` que o acompanha.
+- **Node.js 16** (o vue-cli 4 não arranca em Node 17 ou mais recente sem a variável `NODE_OPTIONS=--openssl-legacy-provider`; com o [nvm](https://github.com/nvm-sh/nvm): `nvm install 16 && nvm use 16`);
+- **MongoDB 4.4** Community a correr em `localhost:27017` (a versão com que o projeto foi testado), com a *shell* `mongo` que o acompanha.
 
 Os comandos abaixo são para Linux e macOS. No Windows, usar o Git Bash ou definir as variáveis de ambiente com `set` (cmd) ou `$env:` (PowerShell).
 

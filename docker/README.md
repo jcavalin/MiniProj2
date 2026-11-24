@@ -20,8 +20,8 @@ Na primeira vez demora alguns minutos (o `npm ci` corre dentro de cada contentor
 
 **Dados iniciais** (inseridos só quando a base de dados é criada):
 
-- `docker/mongo-init/01-animais.js`: os 4 animais de `frontend/db/db.json`;
-- `docker/mongo-init/02-quizzes.js`: 6 questões, 2 quizzes (níveis 1 e 2) e os 5 níveis de utilizador de `frontend/src/store/module.js`. Substituem as coleções `questions`, `quizzes` e `user_levels` da base Atlas do livro;
+- `docker/mongo-init/01-animais.js`: os 4 animais de `frontend/db/db.json`. As fotografias do cão e do gato originais já não existem e foram trocadas por imagens do Wikimedia Commons;
+- `docker/mongo-init/02-quizzes.js`: 6 questões, 2 quizzes e os 5 níveis de utilizador, no lugar das coleções `questions`, `quizzes` e `user_levels` que o enunciado manda copiar da base de dados do livro (no MongoDB Atlas);
 - `docker/mongo-init/03-patrocinadores.js`: 3 patrocinadores, ligados aos animais pelo nome;
 - `docker/mongo-init/04-especialistas.js`: 4 especialistas de instituições de Lisboa, com a área igual a um grupo dos animais.
 
@@ -36,5 +36,3 @@ Na primeira vez demora alguns minutos (o `npm ci` corre dentro de cada contentor
 
 - `backend/config/config.js`: `uri` lê `MONGODB_URI`
 - `frontend/src/api/config.js`: `API_URL` lê `VUE_APP_API_URL`
-
-Usa Node 16 porque o vue-cli 4 (webpack 4) e algumas dependências não aceitam Node 17 ou mais recente.
