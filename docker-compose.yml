@@ -16,7 +16,9 @@ services:
   backend:
     image: node:16              # vue-cli 4 / webpack 4 e dependências antigas não correm em Node >= 17
     working_dir: /app
-    command: sh -c "npm ci && npm start"
+    # nodemon (sem o acrescentar ao package.json): reinicia a API quando o código muda;
+    # -L usa polling, necessário para detetar alterações em volumes montados
+    command: sh -c "npm ci && npx --yes nodemon@3 -L app.js"
     environment:
       PORT: 8080                  # porta do enunciado
       MONGODB_URI: mongodb://mongo:27017/test   # base do enunciado

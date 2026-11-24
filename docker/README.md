@@ -30,6 +30,7 @@ Na primeira vez demora alguns minutos (o `npm ci` corre dentro de cada contentor
 - Parar: `docker compose down`
 - Recomeçar com a base de dados vazia: `docker compose down -v` (apaga também os `node_modules` dos contentores)
 - Ver os registos do back-end: `docker compose logs -f backend`
+- Os dois servidores estão em modo de desenvolvimento: o front-end recarrega no browser e a API reinicia sozinha (com o nodemon) quando o código muda.
 
 **Alterações ao código original** (para ler a configuração de variáveis de ambiente, mantendo os valores antigos como alternativa):
 
