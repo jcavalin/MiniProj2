@@ -59,4 +59,17 @@ userSchema
         callback();
     })
 
+// Nas respostas da API (JSON) não vão a palavra-passe nem as chaves usadas para assinar o token,
+// para não ficarem no browser (ex.: no localStorage depois do login). O username continua a ir.
+userSchema.set("toJSON", {
+    transform: function (doc, ret) {
+        if (ret.auth) {
+            delete ret.auth.password;
+            delete ret.auth.public_key;
+            delete ret.auth.private_key;
+        }
+        return ret;
+    }
+});
+
 module.exports = global.mongoConnection.model(CONFIG.mongodb.collections.user, userSchema);
