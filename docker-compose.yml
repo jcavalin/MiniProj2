@@ -1,8 +1,6 @@
-# Animalec em contentores: MongoDB, back-end (Express) e front-end (Vue 2).
-# Uso: docker compose up        (ver docker/README.md)
 services:
   mongo:
-    image: mongo:4.4            # o Mongoose 5 do projeto não suporta versões recentes do MongoDB
+    image: mongo:4.4
     ports:
       - "27017:27017"
     volumes:
@@ -14,15 +12,12 @@ services:
       retries: 20
 
   backend:
-    image: node:16              # vue-cli 4 / webpack 4 e dependências antigas não correm em Node >= 17
+    image: node:16
     working_dir: /app
-    # nodemon (sem o acrescentar ao package.json): reinicia a API quando o código muda;
-    # -L usa polling, necessário para detetar alterações em volumes montados.
-    # Versão 2 porque a 3 não suporta Node 16; corre com «node» porque via npx o binário dá «Permission denied»
     command: sh -c "npm ci && npm install --no-save nodemon@2.0.22 && node node_modules/nodemon/bin/nodemon.js -L app.js"
     environment:
-      PORT: 8080                  # porta do enunciado
-      MONGODB_URI: mongodb://mongo:27017/test   # base do enunciado
+      PORT: 8080
+      MONGODB_URI: mongodb://mongo:27017/test
     ports:
       - "8080:8080"
     volumes:
@@ -48,8 +43,8 @@ services:
     working_dir: /app
     command: sh -c "npm ci && npm run serve -- --host 0.0.0.0 --port 8081"
     environment:
-      VUE_APP_API_URL: http://localhost:8080   # o browser corre no anfitrião, por isso é localhost
-      CHOKIDAR_USEPOLLING: "true"              # recarregamento automático com volumes montados
+      VUE_APP_API_URL: http://localhost:8080
+      CHOKIDAR_USEPOLLING: "true"
     ports:
       - "8081:8081"
     volumes:

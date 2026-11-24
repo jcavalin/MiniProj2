@@ -1,6 +1,3 @@
-// Dados iniciais do MongoDB (corre só quando o volume da base de dados está vazio).
-// Animais tirados de frontend/db/db.json. As fotografias do cão e do gato (as originais já não existem)
-// vêm do Wikimedia Commons: autor e licença na página de cada ficheiro.
 db = db.getSiblingDB("test");
 db.animals.insertMany([
   {

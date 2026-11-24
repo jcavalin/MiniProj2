@@ -1,5 +1,3 @@
-// Patrocinadores iniciais (corre só quando o volume da base de dados está vazio).
-// Corre depois de 01-animais.js, por isso os animais já existem e podem ser referidos pelo nome.
 db = db.getSiblingDB("test");
 
 function animal(nome) {
@@ -10,7 +8,6 @@ db.sponsors.insertMany([
   {
     name: "Jardim Zoológico de Lisboa",
     type: "Empresa",
-    // Imagem servida pela própria API (backend/assets), para não depender de sites externos
     logo: "http://localhost:8080/assets/images/logo_email.png",
     email: "patrocinios@zoo-exemplo.pt",
     animals: [animal("cão"), animal("gato"), animal("cavalo")],

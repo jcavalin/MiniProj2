@@ -1,5 +1,3 @@
-// Especialistas iniciais (corre só quando o volume da base de dados está vazio).
-// A área usa os mesmos valores do campo «group» dos animais de 01-animais.js.
 db = db.getSiblingDB("test");
 
 db.experts.insertMany([
