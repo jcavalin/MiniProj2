@@ -1,6 +1,7 @@
 module.exports = {
     mongodb: {
-        uri: process.env.MONGODB_URI || 'mongodb+srv://fcabook:fT73qsfEjZ7C@fcabook-jly7a.mongodb.net/test?retryWrites=true&w=majority',
+        // Obrigatório, ex.: mongodb://localhost:27017/test
+        uri: process.env.MONGODB_URI,
         collections: {
             animal: 'animals',
             question: 'questions',
@@ -20,10 +21,11 @@ module.exports = {
         numerical: "0123456789"
     },
     email: {
-        service: "Gmail",
+        // Opcional: só é preciso para enviar emails (rota /emails)
+        service: process.env.EMAIL_SERVICE,
         auth: {
-            user: "mailserverpw@gmail.com",
-            pass: "ttxirdxzkafhcuel"
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
         }
     }
 }

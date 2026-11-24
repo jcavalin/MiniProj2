@@ -111,7 +111,7 @@ VUE_APP_API_URL=http://localhost:8080 npm run serve -- --port 8081
 
 Abrir http://localhost:8081 e entrar com `admin` / `admin`.
 
-> Sem as variáveis `MONGODB_URI` e `VUE_APP_API_URL`, o código usa os valores originais do livro (base de dados Atlas e API no Heroku), que podem já não estar disponíveis.
+> A API não arranca sem a variável `MONGODB_URI`. Sem a `VUE_APP_API_URL`, o *front-end* usa o URL original do livro (API no Heroku), que pode já não estar disponível.
 
 ## API: patrocinadores e especialistas
 
@@ -224,9 +224,17 @@ async addExpert(token, payload) {
 
 O projeto original não tem testes automáticos, e este miniprojeto segue a mesma opção. Cada funcionalidade foi verificada à mão no *browser*, em ecrã largo (1280 px) e em *mobile* (375 px).
 
-## Nota sobre credenciais no código original
+## Variáveis de ambiente da API
 
-O ficheiro `backend/config/config.js` vem do repositório do livro e contém a palavra-passe da base de dados Atlas e de uma conta de correio usadas pelos autores. Já eram públicas no código original e não são usadas neste ambiente (a ligação ao MongoDB vem da variável `MONGODB_URI`).
+O ficheiro `backend/config/config.js` do livro trazia a palavra-passe da base de dados Atlas e de uma conta de correio dos autores. Esses valores foram retirados, e a configuração vem agora só de variáveis de ambiente:
+
+| Variável | Obrigatória | Para quê |
+|---|---|---|
+| `MONGODB_URI` | Sim | Ligação ao MongoDB (ex.: `mongodb://localhost:27017/test`) |
+| `PORT` | Não (8080) | Porta da API |
+| `EMAIL_SERVICE`, `EMAIL_USER`, `EMAIL_PASS` | Não | Envio de emails pela rota `/emails` (ex.: `Gmail`, o endereço e uma palavra-passe de aplicação) |
+
+No Docker, o `docker-compose.yml` já define a `MONGODB_URI` e a `PORT`. As variáveis de email podem ser postas num ficheiro `.env` na raiz do repositório (ignorado pelo Git), que o Docker Compose lê sozinho.
 
 ## Declaração de utilização de IA
 

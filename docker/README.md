@@ -32,7 +32,7 @@ Na primeira vez demora alguns minutos (o `npm ci` corre dentro de cada contentor
 - Ver os registos do back-end: `docker compose logs -f backend`
 - Os dois servidores estão em modo de desenvolvimento: o front-end recarrega no browser e a API reinicia sozinha (com o nodemon) quando o código muda.
 
-**Alterações ao código original** (para ler a configuração de variáveis de ambiente, mantendo os valores antigos como alternativa):
+**Alterações ao código original** (para ler a configuração de variáveis de ambiente):
 
-- `backend/config/config.js`: `uri` lê `MONGODB_URI`
-- `frontend/src/api/config.js`: `API_URL` lê `VUE_APP_API_URL`
+- `backend/config/config.js`: `uri` lê `MONGODB_URI`, e o email lê `EMAIL_SERVICE`, `EMAIL_USER` e `EMAIL_PASS`, sem os valores antigos do livro; a API termina com uma mensagem de erro se faltar a `MONGODB_URI`
+- `frontend/src/api/config.js`: `API_URL` lê `VUE_APP_API_URL`, com o URL antigo como alternativa

@@ -1,5 +1,9 @@
 module.exports = (app, callback) => {
     const CONFIG = require('../config/config');
+    if (!CONFIG.mongodb.uri) {
+        console.error('Falta a variável de ambiente MONGODB_URI (ex.: mongodb://localhost:27017/test).');
+        process.exit(1);
+    }
     //Connect to DB
     const mongoose = require('mongoose');
     let settings = {
