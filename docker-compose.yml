@@ -17,8 +17,9 @@ services:
     image: node:16              # vue-cli 4 / webpack 4 e dependências antigas não correm em Node >= 17
     working_dir: /app
     # nodemon (sem o acrescentar ao package.json): reinicia a API quando o código muda;
-    # -L usa polling, necessário para detetar alterações em volumes montados
-    command: sh -c "npm ci && npx --yes nodemon@3 -L app.js"
+    # -L usa polling, necessário para detetar alterações em volumes montados.
+    # Versão 2 porque a 3 não suporta Node 16; corre com «node» porque via npx o binário dá «Permission denied»
+    command: sh -c "npm ci && npm install --no-save nodemon@2.0.22 && node node_modules/nodemon/bin/nodemon.js -L app.js"
     environment:
       PORT: 8080                  # porta do enunciado
       MONGODB_URI: mongodb://mongo:27017/test   # base do enunciado
